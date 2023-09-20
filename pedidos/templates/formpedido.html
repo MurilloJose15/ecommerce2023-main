@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block conteudo %}
+    <div class="row gx-3 gx-lg-1 row-cols-2 row-cols-md-3 row-cols-xl-2 justify-content-center">
+                    <div class="col-6">
+                        <div class="card h-100">
+                            <div class="card-body p-4">
+                                <div>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        {% bootstrap_form form %}
+                                        {% buttons %}
+                                        <input type="submit" class="btn btn-primary" value="Finalizar Pedido">
+                                        {% endbuttons %}
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card h-100">
+                            <div class="card-body p-4">
+                                <div>
+                                    <h3 class="bg-primary text-light">Seu Pedido:</h3>
+                                    <ul>
+                                        {% for item in carrinho %}
+                                        <li>
+                                            {{ item.quantidade }} => {{ item.produto.nome }}
+                                            <span>R${{ item.preco_total }}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                    <p>Total: R${{ carrinho.get_preco_total }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    </div>
+
+{% endblock %}

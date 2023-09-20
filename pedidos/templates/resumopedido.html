@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block conteudo %}
+    <div class="row gx-3 gx-lg-1 row-cols-2 row-cols-md-3 row-cols-xl-2 justify-content-center">
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body p-4">
+                                <div>
+                                    <h3>Obrigado por comprar conosco!!!</h3>
+                                    <h4>Seu Pedido:</h4>
+                                    <table class="table table-striped table-dark">
+                                    <thead>
+                                        <tr>
+                                            <th>Imagem</th>
+                                            <th>Produto</th>
+                                            <th>Quantidade</th>
+                                            <th>Preço unitário</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in pedido.itens_pedido.all %}
+                                            {% with produto=item.produto %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'detalheprod' produto.id produto.slug %}">
+                                                        <img src="{% if produto.imagem %} {{ produto.imagem.url }}
+                                                                  {% else %} {% static 'assets/noitem.jfif' %}
+                                                                  {% endif %}" alt="imagem do produto {{ produto.nome }}"
+                                                             width="90" height="100">
+                                                    </a>
+                                                </td>
+                                                <td>{{ produto.nome }}</td>
+                                                <td>
+                                                    {{ item.quantidade }}
+                                                </td>
+                                                <td>R${{ item.preco }}</td>
+                                                <td>R${{ item.custo_total }}</td>
+                                            </tr>
+                                            {% endwith %}
+                                        {% endfor %}
+                                            <tr>
+                                                <td>Total</td>
+                                                <td colspan="3"></td>
+                                                <td>R${{ pedido.get_total }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    </div>
+
+{% endblock %}

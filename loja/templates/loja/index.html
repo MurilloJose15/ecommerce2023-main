@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+    {% include 'includes/header.html' %}
+{% endblock %}
+
+{% block conteudo %}
+            <div class="row gx-4 gx-lg-2 row-cols-2 row-cols-md-3 row-cols-xl-2 justify-content-center">
+                    <div class="col mb-5">
+                        <div class="card h-100 mt-0">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="{% static 'assets/loja-virtual.png'%}" alt="logo loja" />
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h3 class="fw-bolder">Loja Virtual Ifro</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+{% endblock %}
