@@ -21,6 +21,7 @@ class PedidoCreateView(CreateView):
                                       preco=item['preco'],
                                       quantidade=item['quantidade'])
         car.limpar()
+        self.request.session['idpedido'] = pedido.id
         return redirect('resumopedido', idpedido=pedido.id)
 
 
