@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div style="width: 100%; padding: 20px; margin: 20px auto; color: #1f2937;">
+    <p>Olá {{ pedido.nome }},</p>
+<p>Obrigado por seu pedido!</p>
+<p>Seu número de pedido é <strong>{{ pedido.id }}</strong>.</p>
+<p> Abaixo estão os detalhes do seu pedido:</p>
+
+<table style="border-collapse: collapse;">
+    <tr style="background-color: #f8f9fa; color: #495057; border: 1px solid #d1d5db;">
+        <th style="padding: 8px; border: 1px solid #d1d5db;">Imagem</th>
+        <th style="padding: 8px; border: 1px solid #d1d5db;">Produto</th>
+        <th style="padding: 8px; border: 1px solid #d1d5db;">Quantidade</th>
+        <th style="padding: 8px; border: 1px solid #d1d5db;">Preço Unitário</th>
+        <th style="padding: 8px; border: 1px solid #d1d5db;">Subtotal</th>
+    </tr>
+    {% for item in pedido.itens_pedido.all %}
+        {% with produto=item.produto %}
+            <tr style="border: 1px solid #d1d5db;">
+                <td style="padding: 8px; border: 1px solid #d1d5db;">
+                    <img src="https://picsum.photos/90/100" alt="imagem do produto Biscoito Recheado Mini Oreo Original 36g" width="90" height="100">
+                </td>
+                <td style="padding: 8px; border: 1px solid #d1d5db;">{{ produto.nome }}</td>
+                <td style="padding: 8px; border: 1px solid #d1d5db;">{{ item.quantidade }}</td>
+                <td style="padding: 8px; border: 1px solid #d1d5db;">R${{ item.preco }}</td>
+                <td style="padding: 8px; border: 1px solid #d1d5db;">R${{ item.get_custo }}</td>
+            </tr>
+        {% endwith %}
+    {% endfor %}
+    <tr style="border: 1px solid #d1d5db;">
+        <td colspan="5" align="right" style="padding: 8px; border: 1px solid #d1d5db; background-color: #e9ecef;">Total</td>
+        <td style="padding: 8px; border: 1px solid #d1d5db;">R${{ pedido.get_total }}</td>
+    </tr>
+</table>
+
+
+    </div>
+
+</body>
+</html>

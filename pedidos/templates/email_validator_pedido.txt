@@ -1,0 +1,15 @@
+Olá {{ pedido.nome }},
+
+Obrigado por seu pedido!
+Seu número de pedido é {{ pedido.id }}.
+Abaixo estão os detalhes do seu pedido:
+
+{% for item in pedido.itens_pedido.all %}
+    {% with produto=item.produto %}
+Produto: {{ produto.nome }}
+Quantidade: {{ item.quantidade }}
+Preço Unitário: R${{ item.preco }}
+Subtotal: R${{ item.get_custo }}
+    {% endwith %}
+{% endfor %}
+Total: R${{ pedido.get_total }}

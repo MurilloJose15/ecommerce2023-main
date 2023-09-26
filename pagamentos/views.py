@@ -1,4 +1,6 @@
 from django.shortcuts import render, reverse
+from  django import http
+from typing import Any
 
 from ecommerce import settings
 from pagamentos.forms import CheckoutForm
@@ -21,7 +23,7 @@ class ProcessarPagamento(FormView):
         self.braintree_client_token = braintree.ClientToken.generate({})
         return super().dispatch(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         ctx = super().get_context_data(**kwargs)
         ctx['braintree_client_token'] = self.braintree_client_token
         return ctx

@@ -1,6 +1,9 @@
-from django.shortcuts import render, redirect
+from typing import Any
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 
 from carrinho.carrinho import Carrinho
 from pedidos.forms import PedidoModelForm
@@ -22,8 +25,22 @@ class PedidoCreateView(CreateView):
                                       quantidade=item['quantidade'])
         car.limpar()
         self.request.session['idpedido'] = pedido.id
-        return redirect('resumopedido', idpedido=pedido.id)
+        self.email_validator_pedido(pedido)
+        return super().form_valid(form)
 
+    def get_success_url(self):
+        return reverse_lazy('resumopedido', args=[self.object.id])
+
+    def email_validator_pedido(self, pedido: Pedido) -> None:
+        subject = 'Confirmação de pedido'
+        from_email = 'pedido@loja.com'
+        to = [pedido.email]
+        text_content = render_to_string('email_validator_pedido.txt', {'pedido': pedido})
+        html_content = render_to_string('email_validator_pedido.html', {'pedido': pedido})
+
+        email = EmailMultiAlternatives(subject, text_content, from_email, to)
+        email.attach_alternative(html_content, 'text/html')
+        email.send()
 
 class ResumoPedidoTemplateView(TemplateView):
     template_name = 'resumopedido.html'
